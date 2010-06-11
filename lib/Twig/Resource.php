@@ -105,4 +105,17 @@ abstract class Twig_Resource
 
         return call_user_func_array(array($object, $method), $arguments);
     }
+
+    // Recursively apply ::toTwig() methods to objects that implement the toTwig method
+    protected function toTwigContext(& $context)
+    {
+      if(is_object($context) && method_exists($context, 'toTwig'))
+        $context = $context->toTwig();
+
+      if(is_array($context))
+      {
+        foreach($context as $key => $value)
+          $this->toTwigContext($context[$key]);
+      }
+    }
 }

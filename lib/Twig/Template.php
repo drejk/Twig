@@ -50,6 +50,8 @@ abstract class Twig_Template extends Twig_Resource implements Twig_TemplateInter
      */
     public function render(array $context)
     {
+        $this->toTwigContext($context);
+
         ob_start();
         try {
             $this->display($context);
